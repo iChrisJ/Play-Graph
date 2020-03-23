@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Graph
+namespace Graph.Graph
 {
-    public class AdjList
+    public class Graph
     {
-        private int V;
-        public int Vertex
+        private int _v;
+        public int V
         {
-            get { return V; }
+            get { return _v; }
         }
 
-        private int E;
-        public int Edge
+        private int _e;
+        public int E
         {
-            get { return E; }
+            get { return _e; }
         }
 
-        private LinkedList<int>[] adj;
+        private SortedSet<int>[] adj;
 
-        public AdjList(string filename)
+        public Graph(string filename)
         {
             using (StreamReader sr = File.OpenText(filename))
             {
@@ -29,13 +29,13 @@ namespace Graph
                 {
                     string line = sr.ReadLine();
                     string[] nums = line.Split();
-                    V = int.Parse(nums[0]);
-                    adj = new LinkedList<int>[V];
-                    for (int i = 0; i < V; i++)
-                        adj[i] = new LinkedList<int>();
-                    E = int.Parse(nums[1]);
+                    _v = int.Parse(nums[0]);
+                    adj = new SortedSet<int>[_v];
+                    for (int i = 0; i < _v; i++)
+                        adj[i] = new SortedSet<int>();
+                    _e = int.Parse(nums[1]);
 
-                    for (int i = 0; i < E; i++)
+                    for (int i = 0; i < _e; i++)
                     {
                         line = sr.ReadLine();
                         string[] nodes = line.Split();
@@ -46,13 +46,13 @@ namespace Graph
                             throw new InvalidOperationException("Self loop is detected.");
                         if (adj[a].Contains(b))
                             throw new InvalidOperationException("Parallel edged are detected.");
-                        adj[a].AddLast(b);
-                        adj[b].AddLast(a);
+                        adj[a].Add(b);
+                        adj[b].Add(a);
                     }
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
-                    throw;
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace Graph
             return adj[v].Contains(w);
         }
 
-        public LinkedList<int> Adj(int v)
+        public IEnumerable<int> Adj(int v)
         {
             ValidateVertex(v);
             return adj[v];
@@ -72,14 +72,15 @@ namespace Graph
 
         public int Degree(int v)
         {
-            return Adj(v).Count;
+            ValidateVertex(v);
+            return adj[v].Count;
         }
 
         public override string ToString()
         {
             StringBuilder res = new StringBuilder();
-            res.Append($"V = {V}, E = {E}\n");
-            for (int i = 0; i < V; i++)
+            res.Append($"V = {_v}, E = {_e}\n");
+            for (int i = 0; i < _v; i++)
             {
                 res.Append($"{i}: ");
                 foreach (int w in adj[i])
@@ -102,13 +103,15 @@ namespace Graph
 
         private void ValidateVertex(int v)
         {
-            if (v < 0 || v >= V)
+            if (v < 0 || v >= _v)
                 throw new InvalidOperationException($"Vertex {v} is invalid.");
         }
+
         // public static void Main(string[] args)
         // {
-        //     AdjList adjList = new AdjList("g.txt");
-        //     Console.Write(adjList);
+            
+        //     Graph graph = new Graph("g.txt");
+        //     Console.Write(graph);
         // }
     }
 }
