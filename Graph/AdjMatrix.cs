@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Graph.Graph
+namespace Graph
 {
-    public class AdjList
+    public class AdjMatrix
     {
         private int V;
         public int Vertex
@@ -19,9 +19,9 @@ namespace Graph.Graph
             get { return E; }
         }
 
-        private LinkedList<int>[] adj;
+        private int[,] adj;
 
-        public AdjList(string filename)
+        public AdjMatrix(string filename)
         {
             using (StreamReader sr = File.OpenText(filename))
             {
@@ -30,9 +30,7 @@ namespace Graph.Graph
                     string line = sr.ReadLine();
                     string[] nums = line.Split();
                     V = int.Parse(nums[0]);
-                    adj = new LinkedList<int>[V];
-                    for (int i = 0; i < V; i++)
-                        adj[i] = new LinkedList<int>();
+                    adj = new int[V, V];
                     E = int.Parse(nums[1]);
 
                     for (int i = 0; i < E; i++)
@@ -44,10 +42,10 @@ namespace Graph.Graph
 
                         if (a == b)
                             throw new InvalidOperationException("Self loop is detected.");
-                        if (adj[a].Contains(b))
+                        if (adj[a, b] == 1)
                             throw new InvalidOperationException("Parallel edged are detected.");
-                        adj[a].AddLast(b);
-                        adj[b].AddLast(a);
+                        adj[a, b] = 1;
+                        adj[b, a] = 1;
                     }
                 }
                 catch (System.Exception)
@@ -61,13 +59,17 @@ namespace Graph.Graph
         {
             ValidateVertex(v);
             ValidateVertex(w);
-            return adj[v].Contains(w);
+            return adj[v, w] == 1;
         }
 
-        public LinkedList<int> Adj(int v)
+        public IList<int> Adj(int v)
         {
             ValidateVertex(v);
-            return adj[v];
+            IList<int> res = new List<int>();
+            for (int i = 0; i < V; i++)
+                if(adj[v, i] == 1)
+                    res.Add(i);
+            return res;
         }
 
         public int Degree(int v)
@@ -77,17 +79,16 @@ namespace Graph.Graph
 
         public override string ToString()
         {
-            StringBuilder res = new StringBuilder();
-            res.Append($"V = {V}, E = {E}\n");
+            StringBuilder str = new StringBuilder();
+            str.Append($"V = {V}, E = {E}\n");
             for (int i = 0; i < V; i++)
             {
-                res.Append($"{i}: ");
-                foreach (int w in adj[i])
-                    res.Append($"{w} ");
-                res.Append("\n");
+                for (int j = 0; j < V; j++)
+                    str.Append($"{adj[i, j]} ");
+                str.Append("\n");
             }
 
-            return res.ToString();
+            return str.ToString();
         }
 
         private int GetVetex(string node)
@@ -107,8 +108,8 @@ namespace Graph.Graph
         }
         // public static void Main(string[] args)
         // {
-        //     AdjList adjList = new AdjList("g.txt");
-        //     Console.Write(adjList);
+        //     AdjMatrix adjMatrix = new AdjMatrix("g.txt");
+        //     Console.Write(adjMatrix);
         // }
     }
 }

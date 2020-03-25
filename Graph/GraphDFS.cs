@@ -1,8 +1,7 @@
-namespace Graph.GraphDFS
+namespace Graph
 {
     using System.Collections.Generic;
     using System;
-    using Graph;
 
     public class GraphDFS
     {

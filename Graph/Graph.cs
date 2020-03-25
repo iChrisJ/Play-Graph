@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Graph.Graph
+namespace Graph
 {
-    public class AdjSet
+    public class Graph
     {
-        private int V;
-        public int Vertex
+        private int _v;
+        public int V
         {
-            get { return V; }
+            get { return _v; }
         }
 
-        private int E;
-        public int Edge
+        private int _e;
+        public int E
         {
-            get { return E; }
+            get { return _e; }
         }
 
         private SortedSet<int>[] adj;
 
-        public AdjSet(string filename)
+        public Graph(string filename)
         {
             using (StreamReader sr = File.OpenText(filename))
             {
@@ -29,13 +29,13 @@ namespace Graph.Graph
                 {
                     string line = sr.ReadLine();
                     string[] nums = line.Split();
-                    V = int.Parse(nums[0]);
-                    adj = new SortedSet<int>[V];
-                    for (int i = 0; i < V; i++)
+                    _v = int.Parse(nums[0]);
+                    adj = new SortedSet<int>[_v];
+                    for (int i = 0; i < _v; i++)
                         adj[i] = new SortedSet<int>();
-                    E = int.Parse(nums[1]);
+                    _e = int.Parse(nums[1]);
 
-                    for (int i = 0; i < E; i++)
+                    for (int i = 0; i < _e; i++)
                     {
                         line = sr.ReadLine();
                         string[] nodes = line.Split();
@@ -50,9 +50,9 @@ namespace Graph.Graph
                         adj[b].Add(a);
                     }
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
-                    throw;
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
@@ -79,8 +79,8 @@ namespace Graph.Graph
         public override string ToString()
         {
             StringBuilder res = new StringBuilder();
-            res.Append($"V = {V}, E = {E}\n");
-            for (int i = 0; i < V; i++)
+            res.Append($"V = {_v}, E = {_e}\n");
+            for (int i = 0; i < _v; i++)
             {
                 res.Append($"{i}: ");
                 foreach (int w in adj[i])
@@ -103,14 +103,15 @@ namespace Graph.Graph
 
         private void ValidateVertex(int v)
         {
-            if (v < 0 || v >= V)
+            if (v < 0 || v >= _v)
                 throw new InvalidOperationException($"Vertex {v} is invalid.");
         }
 
         // public static void Main(string[] args)
         // {
-        //     AdjSet adjSet = new AdjSet("g.txt");
-        //     Console.Write(adjSet);
+            
+        //     Graph graph = new Graph("g.txt");
+        //     Console.Write(graph);
         // }
     }
 }
