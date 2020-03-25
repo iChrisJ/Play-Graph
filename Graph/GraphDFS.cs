@@ -40,12 +40,12 @@ namespace Graph
             _postOrder.Add(v);
         }
 
-        public static void Main()
-        {
-            Graph g = new Graph("g2.txt");
-            GraphDFS dfs = new GraphDFS(g);
-            Console.Write(dfs.PreOrder);
-            Console.Write(dfs.PostOrder);
-        }
+        // public static void Main()
+        // {
+        //     Graph g = new Graph("g2.txt");
+        //     GraphDFS dfs = new GraphDFS(g);
+        //     Console.Write(dfs.PreOrder);
+        //     Console.Write(dfs.PostOrder);
+        // }
     }
 }
