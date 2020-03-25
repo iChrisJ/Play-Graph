@@ -101,7 +101,7 @@ namespace Graph
             return v;
         }
 
-        private void ValidateVertex(int v)
+        public void ValidateVertex(int v)
         {
             if (v < 0 || v >= _v)
                 throw new InvalidOperationException($"Vertex {v} is invalid.");
