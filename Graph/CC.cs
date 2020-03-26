@@ -55,23 +55,23 @@ namespace Graph
             return res;
         }
 
-        public static void Main()
-        {
-            Graph g = new Graph("g2.txt");
-            CC cc = new CC(g);
-            Console.WriteLine(cc.CCCount);
+        // public static void Main()
+        // {
+        //     Graph g = new Graph("g2.txt");
+        //     CC cc = new CC(g);
+        //     Console.WriteLine(cc.CCCount);
 
-            Console.WriteLine(cc.IsConnected(0, 6));
-            Console.WriteLine(cc.IsConnected(0, 5));
+        //     Console.WriteLine(cc.IsConnected(0, 6));
+        //     Console.WriteLine(cc.IsConnected(0, 5));
 
-            IList<int>[] comp = cc.Components();
-            for (int i = 0; i < comp.Length; i++)
-            {
-                Console.Write($"{i}: ");
-                foreach (int w in comp[i])
-                    Console.Write($"{w} ");
-                Console.WriteLine();
-            }
-        }
+        //     IList<int>[] comp = cc.Components();
+        //     for (int i = 0; i < comp.Length; i++)
+        //     {
+        //         Console.Write($"{i}: ");
+        //         foreach (int w in comp[i])
+        //             Console.Write($"{w} ");
+        //         Console.WriteLine();
+        //     }
+        // }
     }
 }
