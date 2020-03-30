@@ -3,46 +3,53 @@ namespace Graph
     using System.Collections.Generic;
     using System;
 
-    public class SingleSourcePath
+    public class Path
     {
         private Graph G;
         private int s;
+        private int t;
         private bool[] visited;
         private int[] prev;
 
-        public SingleSourcePath(Graph G, int s)
+        public Path(Graph G, int s, int t)
         {
             this.G = G;
             this.s = s;
+            this.t = t;
             visited = new bool[G.V];
             prev = new int[G.V];
+            Array.Fill<int>(prev, -1);
 
             DFS(s, s);
         }
 
-        private void DFS(int v, int parent)
+        private bool DFS(int v, int parent)
         {
             visited[v] = true;
             prev[v] = parent;
+            if (v == t)
+                return true;
             foreach (int w in G.Adj(v))
                 if (!visited[w])
-                    DFS(w, v);
+                    if (DFS(w, v))
+                        return true;
+
+            return false;
         }
 
-        public bool IsConnectedTo(int t)
+        public bool IsConnected()
         {
-            G.ValidateVertex(t);
             return visited[t];
         }
 
-        public IEnumerable<int> Path(int t)
+        public IEnumerable<int> PathList()
         {
             List<int> res = new List<int>();
-            if(!IsConnectedTo(t))
+            if (!IsConnected())
                 return res;
 
             int cur = t;
-            while(cur != s)
+            while (cur != s)
             {
                 res.Add(cur);
                 cur = prev[cur];
@@ -56,9 +63,14 @@ namespace Graph
         // public static void Main()
         // {
         //     Graph g = new Graph("g2.txt");
-        //     SingleSourcePath sspath = new SingleSourcePath(g, 0);
-        //     Console.WriteLine($"0 -> 6: {sspath.Path(6)}");
-        //     Console.WriteLine($"0 -> 5: {sspath.Path(5)}");
+        //     Path path = new Path(g, 0, 6);
+        //     Console.WriteLine($"0 -> 6: {path.PathList()}");
+
+        //     Path path2 = new Path(g, 0, 5);
+        //     Console.WriteLine($"0 -> 5: {path2.PathList()}");
+
+        //     Path path3 = new Path(g, 0, 1);
+        //     Console.WriteLine($"0 -> 1: {path3.PathList()}");
         // }
     }
 }
