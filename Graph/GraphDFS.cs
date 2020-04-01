@@ -27,7 +27,7 @@ namespace Graph
 
             for (int i = 0; i < G.V; i++)
                 if (!visited[i])
-                    DFS(0);
+                    DFS(i);
         }
 
         private void DFS(int v)

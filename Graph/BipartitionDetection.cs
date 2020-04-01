@@ -46,19 +46,19 @@ namespace Graph
             return true;
         }
 
-        public static void Main()
-        {
-            Graph g = new Graph("g2.txt");
-            BipartitionDetection bd = new BipartitionDetection(g);
-            Console.WriteLine(bd.IsBipartite);
+        // public static void Main()
+        // {
+        //     Graph g = new Graph("g2.txt");
+        //     BipartitionDetection bd = new BipartitionDetection(g);
+        //     Console.WriteLine(bd.IsBipartite);
 
-            Graph g2 = new Graph("g4.txt");
-            BipartitionDetection bd2 = new BipartitionDetection(g2);
-            Console.WriteLine(bd2.IsBipartite);
+        //     Graph g2 = new Graph("g4.txt");
+        //     BipartitionDetection bd2 = new BipartitionDetection(g2);
+        //     Console.WriteLine(bd2.IsBipartite);
 
-            Graph g3 = new Graph("g5.txt");
-            BipartitionDetection bd3 = new BipartitionDetection(g3);
-            Console.WriteLine(bd3.IsBipartite);
-        }
+        //     Graph g3 = new Graph("g5.txt");
+        //     BipartitionDetection bd3 = new BipartitionDetection(g3);
+        //     Console.WriteLine(bd3.IsBipartite);
+        // }
     }
 }
